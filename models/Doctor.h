@@ -30,5 +30,9 @@ class Doctor : public User {
         experience = e;
         hourly_charge = h_c;
     }
+    string getCNIC() {
+        return CNIC;
+    }
+
 
 };

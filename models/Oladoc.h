@@ -14,24 +14,54 @@ class Oladoc {
         int user_type;
         cout << "\t\t\tChoice: ";
         cin >> user_type;
+        cout << endl;
         if (user_type == 2) {
-            cout << "\t\t\tWelcome Doctor!" << endl;
+            cout << "\t\t\tWelcome Doctor!" << endl << endl;
             cout << "\t\t\t1. Login" << endl;
             cout << "\t\t\t2. Sign Up" << endl << endl;
             int panel_choice;
             cout << "\t\t\tChoice: ";
             cin >> panel_choice;
+            cout << endl;
             if (panel_choice == 2) {
                 cout << endl << endl;
                 registerDoctor();
 
             }
+            else if(panel_choice == 1) {
+                bool validate = false;
+                while (!validate) {
+                    validate = loginDoctor();
+                }
+            }
         }
+
+        
 
 
     }
     bool loginAdmin(string userName, string Password);
-    bool loginDoctor();
+    bool loginDoctor() {
+        string CNIC;
+        string password;
+        Doctor p;
+        cout << "\t\t\tCNIC: ";
+        cin >> CNIC;
+        cout << "\t\t\tPassword: ";
+        cin >> password;
+        ifstream file("doctors.dat", ios::binary);
+        while (file.read((char*)&p, sizeof(p))) {
+            if (p.getCNIC() == CNIC) {
+                if (p.getPassword() == password) {
+                    cout << endl;
+                    cout << "\t\t\tLogin Successful!";
+                    return 1;
+                }
+            }
+        }
+        cout << endl << "\t\t\tIncorrect Credentials, please try again" << endl;
+        return 0;
+    }
     bool loginPatient();
     bool logoutAdmin();
     bool logoutDoctor();
@@ -58,6 +88,7 @@ class Oladoc {
                 }
                 cout << "\t\t\tCNIC: ";
                 cin >> cnic;
+                // check if file exists
                 // add cnic check
                 cout << "\t\t\tName of the Hospital you work at: ";
                 cin >> hospital_name;
