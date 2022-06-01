@@ -3,6 +3,7 @@
 using namespace std;
 
 class User {
+    protected:
     string Name;
     string userName;
     string Password;
@@ -12,22 +13,10 @@ class User {
         userName = u;
         Password = p;
     }
-    string getName() {
-        return Name;
-    }
-    string getUserName() {
-        return userName;
-    }
-    string getPassword() {
-        return Password;
-    }
-    void setName(string n) {
-        Name = n;
-    }
-    void setUserName(string n) {
-        userName = n;
-    }
-    void setPassword(string p) {
-        Password = p;
-    }
+    virtual string getName() = 0;
+    virtual string getUserName() = 0;
+    virtual string getPassword() = 0;
+    virtual void setName(string n) = 0;    
+    virtual void setUserName(string n) = 0;
+    virtual void setPassword(string p) = 0;
 };
