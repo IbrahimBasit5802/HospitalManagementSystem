@@ -4,12 +4,13 @@ using namespace std;
 #include "User.h"
 class Patient : public User {
     
-    string CNIC;
-    string email;
+    char CNIC[100];
+    char email[100];
     public:
     Patient(string n = "", string u = "", string p = "", string c = "", string e = "") : User(n, u, p) {
-        CNIC = c;
-        email = e;
+        strcpy(CNIC, c.c_str());
+
+        strcpy(email, e.c_str());
     }
     string getName() {
         return Name;
@@ -28,19 +29,19 @@ class Patient : public User {
     }
 
     void setName(string n) {
-        Name = n;
+        strcpy(Name, n.c_str());
     }
     void setUserName(string u) {
-        userName = u;
+        strcpy(userName, u.c_str());
     }
     void setPassword(string p) {
-        Password = p;
+        strcpy(Password, p.c_str());
     }
     void setCNIC(string c) {
-        CNIC = c;
+        strcpy(CNIC, c.c_str());
     }
     void setEmail(string e) {
-        email = e;
+        strcpy(email, e.c_str());
     }
 
 };

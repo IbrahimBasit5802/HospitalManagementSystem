@@ -1,17 +1,18 @@
 #pragma once
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 class User {
     protected:
-    string Name;
-    string userName;
-    string Password;
+    char Name[100];
+    char userName[100];
+    char Password[100];
     public:
     User(string n = "", string u = "", string p = "") {
-        Name = n;
-        userName = u;
-        Password = p;
+        strcpy(this->Name,n.c_str());
+        strcpy(this->userName, u.c_str());
+        strcpy(this->Password, p.c_str());
     }
     virtual string getName() = 0;
     virtual string getUserName() = 0;
