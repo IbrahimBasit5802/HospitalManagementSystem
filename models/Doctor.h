@@ -47,6 +47,21 @@ class Doctor : public User {
     string getEmail() {
         return email;
     }
+    string getLocation() {
+        return location;
+    }
+    string getHospital() {
+        return hospital;
+    }
+    string getSpecialization() {
+        return specialization;
+    }
+    int getExperience() {
+        return experience;
+    }
+    double getHourlyCharge() {
+        return hourly_charge;
+    }
     void setName(string n) {
         strcpy(Name,n.c_str());
     }
@@ -58,6 +73,39 @@ class Doctor : public User {
     }
     void setEmail(string e) {
         strcpy(email, e.c_str());
+    }
+        void setCNIC(string c) {
+        strcpy(CNIC, c.c_str());
+    }
+    void setLocation(string l) {
+        strcpy(location, l.c_str());
+    }
+        void setHospital(string h) {
+        strcpy(hospital, h.c_str());
+    }
+        void setSpecialization(string s) {
+        strcpy(specialization, s.c_str());
+    }
+    void setExperience(int e) {
+        experience = e;
+    }
+    void setHourlyCharge(double h) {
+        hourly_charge = h;
+    }
+
+
+    void mainMenu();
+    Doctor operator=(Doctor obj) {
+        setName(obj.getName());
+        setUserName(obj.getUserName());
+        setPassword(obj.getPassword());
+        setLocation(obj.getLocation());
+        setHospital(obj.getHospital());
+        setEmail(obj.getEmail());
+        setSpecialization(obj.getSpecialization());
+        setExperience(obj.getExperience());
+        setCNIC(obj.getCNIC());
+        setHourlyCharge(obj.getHourlyCharge());
     }
 
 };

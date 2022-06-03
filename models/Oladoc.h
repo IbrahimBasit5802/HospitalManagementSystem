@@ -66,10 +66,11 @@ public:
                 }
                 else if (panel_choice == 1)
                 {
-                    fstream file("doctors.dat", ios::binary | ios::app);
+                    fstream file("doctors.dat", ios::binary);
                     if (file)
                     {
                         validate = false;
+
                     }
 
                     else
@@ -106,7 +107,7 @@ public:
                 else if (panel_choice == 1)
                 {
 
-                    fstream file("patients.dat", ios::binary | ios::app);
+                    fstream file("patients.dat", ios::binary);
                     if (file)
                     {
                         validate = false;

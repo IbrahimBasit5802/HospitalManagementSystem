@@ -43,5 +43,13 @@ class Patient : public User {
     void setEmail(string e) {
         strcpy(email, e.c_str());
     }
+    void mainMenu();
+    Patient operator=(Patient obj) {
+        setName(obj.getName());
+        setUserName(obj.getUserName());
+        setPassword(obj.getPassword());
+        setEmail(obj.getEmail());
+        setCNIC(obj.getCNIC());
+    }
 
 };
