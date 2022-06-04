@@ -8,12 +8,14 @@
 using namespace std;
 
 class Doctor : public User {
+    protected:
+
     char location[100];
     char hospital[100];
     FeedBack * feedbacks;
     int no_feedbacks;
     double hourly_charge;
-    char specialization[100];
+   char specialization[100];
     int experience;
     char CNIC[100];
     char email[100];
@@ -35,15 +37,7 @@ class Doctor : public User {
     string getCNIC() {
         return CNIC;
     }
-    string getName() {
-        return Name;
-    }
-    string getPassword() {
-        return Password;
-    }
-    string getUserName() {
-        return userName;
-    }
+
     string getEmail() {
         return email;
     }
@@ -53,24 +47,14 @@ class Doctor : public User {
     string getHospital() {
         return hospital;
     }
-    string getSpecialization() {
-        return specialization;
-    }
+ 
     int getExperience() {
         return experience;
     }
     double getHourlyCharge() {
         return hourly_charge;
     }
-    void setName(string n) {
-        strcpy(Name,n.c_str());
-    }
-    void setPassword(string p) {
-        strcpy(Password,p.c_str());
-    }
-    void setUserName(string u) {
-        strcpy(userName,u.c_str());
-    }
+
     void setEmail(string e) {
         strcpy(email, e.c_str());
     }
@@ -83,14 +67,18 @@ class Doctor : public User {
         void setHospital(string h) {
         strcpy(hospital, h.c_str());
     }
-        void setSpecialization(string s) {
-        strcpy(specialization, s.c_str());
-    }
+ 
     void setExperience(int e) {
         experience = e;
     }
     void setHourlyCharge(double h) {
         hourly_charge = h;
+    }
+        string getSpecialization() {
+        return specialization;
+    }
+    void setSpecialization(string s) {
+        strcpy(specialization, s.c_str());
     }
 
 
@@ -102,7 +90,7 @@ class Doctor : public User {
         setLocation(obj.getLocation());
         setHospital(obj.getHospital());
         setEmail(obj.getEmail());
-        setSpecialization(obj.getSpecialization());
+       setSpecialization(obj.getSpecialization());
         setExperience(obj.getExperience());
         setCNIC(obj.getCNIC());
         setHourlyCharge(obj.getHourlyCharge());

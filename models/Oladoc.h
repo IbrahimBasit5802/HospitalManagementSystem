@@ -3,7 +3,11 @@
 #include "Doctor.h"
 #include "Patient.h"
 #include "Admin.h"
+#include "Dermatologist.h"
+#include "Orthopedic.h"
+#include "Gynecologist.h"
 #include <fstream>
+#include "Oncologist.h"
 #include <stdlib.h>
 #include <cstring>
 using namespace std;
@@ -18,8 +22,7 @@ public:
             cout << "\t\t\t\tWelcome to Oladoc!" << endl;
             cout << "\t\t\t1. Admin" << endl;
             cout << "\t\t\t2. Doctor" << endl;
-            cout << "\t\t\t3. Patient" << endl
-                 << endl;
+            cout << "\t\t\t3. Patient" << endl << endl;
             int user_type;
             cout << "\t\t\tChoice: ";
             cin >> user_type;
@@ -38,13 +41,52 @@ public:
                 clearScreen();
                 if (panel_choice == 1)
                 {
+                    string userName;
+                    string pass;
                     validate = false;
                     while (!validate)
                     {
-                        validate = loginAdmin();
+                        cout << "\t\t\tUsername: ";
+                        cin >> userName;
+                        cout << "\t\t\tPassword: ";
+                        cin >> pass;
+                        validate = loginAdmin(userName, pass);
                         // cout << "\t\t\tPress 1 to go back: ";
                         // int lol;
                         // cin >> lol;
+                    }
+                    clearScreen();
+                    int admin_option = 0;
+
+                    cout << "\t\t\tLogin Successful" << endl;
+                    cout << endl;
+                    while (admin_option != 4)
+                    {
+
+                        cout << "\t\t\tWelcome, " << userName << "!" << endl;
+                        cout << endl;
+                        cout << "\t\t\t1. Add a doctor to the system" << endl;
+                        cout << "\t\t\t2. Delete a doctor from the system" << endl;
+                        cout << "\t\t\t3. View all patient's data" << endl;
+                        cout << "\t\t\t4. Logout" << endl;
+                        cout << endl;
+                        Admin a(userName, pass);
+                        cout << "\t\t\tChoice: ";
+                        cin >> admin_option;
+                        if (admin_option == 3)
+                        {
+                            clearScreen();
+                            a.viewAllPatientData();
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        if (admin_option == 4)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -66,17 +108,19 @@ public:
                 }
                 else if (panel_choice == 1)
                 {
-                    fstream file("doctors.dat", ios::binary);
+                    ifstream file("doctors.dat", ios::binary);
                     if (file)
                     {
                         validate = false;
-
                     }
 
                     else
                     {
                         validate = true;
                         cout << "\t\t\tThere are no doctors registered in the system." << endl;
+                        cout << "\t\t\tPress enter to go back to the main menu." << endl;
+                        cin.get();
+                        cin.get();
                     }
                     file.close();
 
@@ -107,7 +151,7 @@ public:
                 else if (panel_choice == 1)
                 {
 
-                    fstream file("patients.dat", ios::binary);
+                    ifstream file("patients.dat", ios::binary);
                     if (file)
                     {
                         validate = false;
@@ -117,6 +161,9 @@ public:
                     {
                         validate = true;
                         cout << "\t\t\tThere are no patients registered in the system." << endl;
+                        cout << "\t\t\tPress enter to go back.....";
+                        cin.get();
+                        cin.get();
                     }
                     file.close();
                     while (!validate)
@@ -127,14 +174,9 @@ public:
             }
         }
     }
-    bool loginAdmin()
+    bool loginAdmin(string userName, string pass)
     {
-        cout << "\t\t\tUsername: ";
-        string userName;
-        cin >> userName;
-        cout << "\t\t\tPassword: ";
-        string pass;
-        cin >> pass;
+
         Admin a(userName, pass);
         ifstream file("admin.dat", ios::binary);
         while (file.read((char *)&a, sizeof(a)))
@@ -144,8 +186,6 @@ public:
                 if (a.getPassword() == pass)
                 {
                     cout << endl;
-                    cout << "\t\t\tLogin Successful!" << endl;
-                    clearScreen();
                     return 1;
                 }
             }
@@ -350,10 +390,31 @@ public:
         cin >> experience;
         cout << "\t\t\tYour Hourly Rate: ";
         cin >> hourly_charge;
+
         Doctor d(name, username, password, cnic, email, hospital_name, hospital_location, specialization, experience, hourly_charge);
         ofstream doctors("doctors.dat", ios::binary | ios::app);
         doctors.write((char *)&d, sizeof(d));
         doctors.close();
+
+        // else if(specialization == "Dermatologist") {
+        //     Dermatologist d(name, username, password, cnic, email, hospital_name, hospital_location, experience, hourly_charge, specialization);
+        //     ofstream doctors("doctors.dat", ios::binary | ios::app);
+        //     doctors.write((char *)&d, sizeof(d) + sizeof(Dermatologist));
+        //     doctors.close();
+        // }
+        // else if (specialization == "Orthopedic") {
+        //     Orthopedic d(name, username, password, cnic, email, hospital_name, hospital_location, experience, hourly_charge, specialization);
+        //     ofstream doctors("doctors.dat", ios::binary | ios::app);
+        //     doctors.write((char *)&d, sizeof(d) + sizeof(Orthopedic));
+        //     doctors.close();
+        // }
+        // else if (specialization == "Gynecologist") {
+        //     Gynecologist d(name, username, password, cnic, email, hospital_name, hospital_location, experience, hourly_charge, specialization);
+        //     ofstream doctors("doctors.dat", ios::binary | ios::app);
+        //     doctors.write((char *)&d, sizeof(d) + sizeof(Gynecologist));
+        //     doctors.close();
+        // }
+
         clearScreen();
         return 1;
     }
