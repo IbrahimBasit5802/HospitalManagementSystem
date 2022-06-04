@@ -22,7 +22,8 @@ public:
             cout << "\t\t\t\tWelcome to Oladoc!" << endl;
             cout << "\t\t\t1. Admin" << endl;
             cout << "\t\t\t2. Doctor" << endl;
-            cout << "\t\t\t3. Patient" << endl << endl;
+            cout << "\t\t\t3. Patient" << endl
+                 << endl;
             int user_type;
             cout << "\t\t\tChoice: ";
             cin >> user_type;
@@ -60,15 +61,20 @@ public:
 
                     cout << "\t\t\tLogin Successful" << endl;
                     cout << endl;
-                    while (admin_option != 4)
+                    while (admin_option != 8)
                     {
 
                         cout << "\t\t\tWelcome, " << userName << "!" << endl;
                         cout << endl;
-                        cout << "\t\t\t1. Add a doctor to the system" << endl;
+                        cout << "\t\t\t1. View all doctors data" << endl;
+
                         cout << "\t\t\t2. Delete a doctor from the system" << endl;
                         cout << "\t\t\t3. View all patient's data" << endl;
-                        cout << "\t\t\t4. Logout" << endl;
+                        cout << "\t\t\t4. Edit a Doctor's location" << endl;
+                        cout << "\t\t\t5. Edit  a Doctor's hospital" << endl;
+                        cout << "\t\t\t6. Edit a Doctor's Hourly Charge: " << endl;
+                        cout << "\t\t\t7. Edit a Doctor's Experience: " << endl;
+                        cout << "\t\t\t8. Logout" << endl;
                         cout << endl;
                         Admin a(userName, pass);
                         cout << "\t\t\tChoice: ";
@@ -83,9 +89,140 @@ public:
                             cin.get();
                             clearScreen();
                         }
-                        if (admin_option == 4)
+                        else if (admin_option == 8)
                         {
                             break;
+                        }
+                        else if (admin_option == 4)
+                        {
+                            clearScreen();
+                            cout << endl;
+                            cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the location of." << endl
+                                 << endl;
+                            cout << "\t\t\tCNIC: ";
+                            string cnic;
+                            cin >> cnic;
+                            while (!existsCNIC(cnic))
+                            {
+                                cout << "\t\t\tThis CNIC does not exist, try a different one: ";
+                                cin >> cnic;
+                            }
+                            string location;
+                            cout << "\t\t\tEnter the new location: ";
+                            cin >> location;
+                            a.editDoctorLocation(cnic, location);
+                            cout << "\t\t\tLocation sucessfully updated." << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (admin_option == 5)
+                        {
+                            clearScreen();
+                            cout << endl;
+                            cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the hospital of." << endl
+                                 << endl;
+                            cout << "\t\t\tCNIC: ";
+                            string cnic;
+                            cin >> cnic;
+                            while (!existsCNIC(cnic))
+                            {
+                                cout << "\t\t\tThis CNIC does not exist, try a different one: ";
+                                cin >> cnic;
+                            }
+                            string hospital;
+                            cout << "\t\t\tEnter the new hospital: ";
+                            cin >> hospital;
+                            a.editDoctorHospital(cnic, hospital);
+                            cout << "\t\t\tHospital sucessfully updated." << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (admin_option == 6)
+                        {
+                            clearScreen();
+                            cout << endl;
+                            cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the hourly charge of." << endl
+                                 << endl;
+                            cout << "\t\t\tCNIC: ";
+                            string cnic;
+                            cin >> cnic;
+                            while (!existsCNIC(cnic))
+                            {
+                                cout << "\t\t\tThis CNIC does not exist, try a different one: ";
+                                cin >> cnic;
+                            }
+                            double h;
+                            cout << "\t\t\tEnter the new hourly rate: ";
+                            cin >> h;
+                            a.editDoctorHourlyCharge(cnic, h);
+                            cout << "\t\t\tHourly rate sucessfully updated." << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (admin_option == 7)
+                        {
+                            clearScreen();
+                            cout << endl;
+                            cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the experience of." << endl
+                                 << endl;
+                            cout << "\t\t\tCNIC: ";
+                            string cnic;
+                            cin >> cnic;
+                            while (!existsCNIC(cnic))
+                            {
+                                cout << "\t\t\tThis CNIC does not exist, try a different one: ";
+                                cin >> cnic;
+                            }
+                            int h;
+                            cout << "\t\t\tEnter the new experience: ";
+                            cin >> h;
+                            a.editDoctorExperience(cnic, h);
+                            cout << "\t\t\tExperience sucessfully updated." << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (admin_option == 2)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tEnter the CNIC of the doctor you wish to remove: ";
+                            string cnic;
+                            cin >> cnic;
+                            while (!a.deleteDoctor(cnic))
+                            {
+                                clearScreen();
+                                cout << "\t\t\tThe CNIC you entered does not exist in the system." << endl;
+                                cout << "\t\t\tPlease try another one: ";
+                                cin >> cnic;
+                            }
+                            // add option to go back
+                            cout << "\t\t\tDoctor successfully removed from the system." << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (admin_option == 1)
+                        {
+                            clearScreen();
+                            a.viewAllDoctors();
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the admin panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
                         }
                     }
                 }

@@ -41,7 +41,7 @@ class Doctor : public User {
     string getEmail() {
         return email;
     }
-    string getLocation() {
+    char* getLocation() {
         return location;
     }
     string getHospital() {
