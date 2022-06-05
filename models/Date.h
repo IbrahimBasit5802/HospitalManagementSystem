@@ -40,4 +40,12 @@ class Date{
         hour = h;
     }
 
+    Date operator=(Date obj) {
+        setYear(obj.getYear());
+        setMonth(obj.getMonth());
+        setDay(obj.getDay());
+        setHour(obj.getHour());
+        return *this;
+    }
+
 };

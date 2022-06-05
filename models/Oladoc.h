@@ -260,13 +260,257 @@ public:
                         cin.get();
                     }
                     file.close();
-
+                    string userName;
+                    string password;
                     while (!validate)
                     {
-                        validate = loginDoctor();
+
+                        cout << "\t\t\tUsername: ";
+                        cin >> userName;
+
+                        cout << "\t\t\tPassword: ";
+                        cin >> password;
+                        validate = loginDoctor(userName, password);
+
                         // cout << "\t\t\tPress 1 to go back: ";
                         // int lol;
                         // cin >> lol;
+                    }
+                    clearScreen();
+                    int doctor_option = 0;
+                    ifstream f("doctors.dat", ios::binary);
+                    Doctor d;
+                    while (f.read((char *)&d, sizeof(d)))
+                    {
+                        if (d.getUserName() == userName)
+                        {
+                            break;
+                        }
+                    }
+                    while (doctor_option != 5)
+                    {
+                        cout << "\t\t\tWelcome, " << d.getName() << endl;
+                        cout << endl;
+                        cout << "\t\t\t1. Edit Available Times" << endl;
+                        cout << "\t\t\t2. Edit Profile" << endl;
+                        cout << "\t\t\t3. View scheduled Appointments" << endl;
+                        cout << "\t\t\t4. Change appointment details" << endl;
+                        cout << "\t\t\t5. Logout" << endl;
+                        cout << endl;
+                        cout << "\t\t\tChoice: ";
+                        cin >> doctor_option;
+                        if (doctor_option == 5)
+                        {
+                            break;
+                        }
+                        else if (doctor_option == 2)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tEdit Profile" << endl;
+                            cout << endl;
+                            cout << "\t\t\t1. Edit Hospital" << endl;
+                            cout << "\t\t\t2. Edit Location" << endl;
+                            cout << "\t\t\t3. Change Hourly rate" << endl;
+                            cout << "\t\t\t4. Edit experience" << endl;
+                            cout << "\t\t\t5. Change Username" << endl;
+                            cout << "\t\t\t6. Change Email" << endl;
+                            cout << "\t\t\t7. Reset Password" << endl;
+                            cout << "\t\t\t8. Go Back" << endl;
+                            int sub_option;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            cin >> sub_option;
+                            while (sub_option != 8)
+                            {
+                                if (sub_option == 8)
+                                {
+                                    break;
+                                }
+                                else if (sub_option == 1)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter the name of your new hospital: ";
+                                    string new_hos;
+                                    cin >> new_hos;
+                                    d.editDoctorHospital(d.getCNIC(), new_hos);
+                                    cout << endl;
+                                    cout << "\t\t\tHospital Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 2)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new location: ";
+                                    string new_loc;
+                                    cin >> new_loc;
+                                    d.editDoctorLocation(d.getCNIC(), new_loc);
+                                    cout << endl;
+                                    cout << "\t\t\tLocation Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 3)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new hourly rate: ";
+                                    double new_rate;
+                                    cin >> new_rate;
+                                    d.editDoctorHourlyCharge(d.getCNIC(), new_rate);
+                                    cout << endl;
+                                    cout << "\t\t\tHourly Charge Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 4)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new experience (in years): ";
+                                    int new_exp;
+                                    cin >> new_exp;
+                                    d.editDoctorExperience(d.getCNIC(), new_exp);
+                                    cout << endl;
+                                    cout << "\t\t\tExperience Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 5)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new username: ";
+                                    string new_usr;
+                                    cin >> new_usr;
+                                    d.editDoctorUsername(d.getCNIC(), new_usr);
+                                    cout << endl;
+                                    cout << "\t\t\tUsername Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 6)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new email: ";
+                                    string new_em;
+                                    cin >> new_em;
+                                    while (!emailCheck(new_em))
+                                    {
+                                        cout << "\t\t\tPlease enter a valid email: ";
+                                        cin >> new_em;
+                                    }
+                                    d.editDoctorEmail(d.getCNIC(), new_em);
+                                    cout << endl;
+                                    cout << "\t\t\tEmail Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 7)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new password: ";
+                                    string new_pass;
+                                    cin >> new_pass;
+                                    while (!PasswordCheck(new_pass))
+                                    {
+                                        cout << "\t\t\tPlease enter a valid Password: ";
+                                        cin >> new_pass;
+                                    }
+                                    d.editDoctorPass(d.getCNIC(), new_pass);
+                                    cout << endl;
+                                    cout << "\t\t\tPassword Successfully updated!" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                            }
+                        }
+                        else if (doctor_option == 1)
+                        {
+                            int sub_option;
+
+                            clearScreen();
+                            cout << "\t\t\tEdit Available Times" << endl;
+                            cout << endl;
+                            cout << "\t\t\t1. Add Availability" << endl;
+                            cout << "\t\t\t2. Edit Availability" << endl;
+                            cout << "\t\t\t3. Delete Availability" << endl;
+                            cout << "\t\t\t4. Go Back" << endl;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            cin >> sub_option;
+                            while (sub_option != 4)
+                            {
+                                if (sub_option == 4)
+                                {
+                                    break;
+                                }
+                                else if (sub_option == 1)
+                                {
+                                    int year, day, month, hour;
+                                    clearScreen();
+                                    cout << "\t\t\tAdd Availability" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tYear: ";
+                                    cin >> year;
+                                    cout << "\t\t\tMonth: ";
+                                    cin >> month;
+                                    cout << "\t\t\tDay: ";
+                                    cin >> day;
+                                    cout << "\t\t\tHour: ";
+                                    cin >> hour;
+
+                                    if (d.addAvilability(d.getCNIC(), year, month, day, hour))
+                                    {
+                                        cout << "\t\t\tAdded Availability Successfully!" << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "\t\t\tAvailable time mismatch" << endl;
+                                    }
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back" << endl;
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                }
+                            }
+                        }
+                        else if (doctor_option == 3)
+                        {
+                            clearScreen();
+                            d.viewAllAvailableTime();
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back to the doctors panel...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
                     }
                 }
             }
@@ -303,9 +547,287 @@ public:
                         cin.get();
                     }
                     file.close();
+                    string username;
+                    string password;
+
                     while (!validate)
+
                     {
-                        validate = loginPatient();
+
+                        cout << "\t\t\tUsername: ";
+                        cin >> username;
+                        cout << "\t\t\tPassword: ";
+                        cin >> password;
+                        validate = loginPatient(username, password);
+                    }
+                    clearScreen();
+                    int patient_option;
+                    ifstream f("patients.dat", ios::binary);
+                    Patient p;
+                    while (f.read((char *)&p, sizeof(p)))
+                    {
+                        if (p.getUserName() == username)
+                        {
+                            break;
+                        }
+                    }
+                    f.close();
+
+                    while (patient_option != 6)
+                    {
+                        cout << "\t\t\tWelcome, " << p.getName() << endl
+                             << endl;
+                        cout << "\t\t\t1. Edit Profile" << endl;
+                        cout << "\t\t\t2. Reset Password" << endl;
+                        cout << "\t\t\t3. Appointments" << endl;
+                        cout << "\t\t\t4. Recharge Account" << endl;
+                        cout << "\t\t\t5. Search Doctors" << endl;
+                        cout << "\t\t\t6. Logout" << endl;
+                        cout << endl;
+                        cout << "\t\t\tChoice: ";
+                        cin >> patient_option;
+                        if (patient_option == 6)
+                        {
+                            break;
+                        }
+                        else if(patient_option == 5) {
+                                    clearScreen();
+                                    cout << "\t\t\tHow would you like to look for your doctor?" << endl << endl;
+                                    cout << "\t\t\t1. By Speciality" << endl;
+                                    cout << "\t\t\t2. By Hospital" << endl;
+                                    cout << "\t\t\t3. Go Back" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tChoice: ";
+                                    int sub_option;
+                                    cin >> sub_option;
+                                    while (sub_option != 3) {
+                                        if (sub_option == 3) {
+                                            break;
+                                        }
+                                        else if(sub_option == 1) {
+                                            clearScreen();
+                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
+                                            cout << "\t\t\tSpeciality: ";
+                                            string speciality;
+                                            cin >> speciality;
+                                            cout << endl;
+                                            Doctor doc;
+                                            cout << "\t\t\tSearch results: "<< endl << endl;
+                                            ifstream doctors("doctors.dat", ios::binary);
+                                            int i = 1;
+                                            while (doctors.read((char*)&doc, sizeof(doc))) {
+                                                if (speciality == doc.getSpecialization()) {
+                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
+                                                    cout << "\t\t\tName: " << doc.getName() << endl;
+                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
+                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
+                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
+                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
+                                                    cout << endl;
+                                                    i++;
+                                                }
+                                            }
+                                            cout << "\t\t\tPress enter to go back...";
+                                            cin.get();
+                                            cin.get();
+                                            clearScreen();
+                                            break;
+                                        }
+                                        else if(sub_option == 2) {
+                                            clearScreen();
+                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
+                                            cout << "\t\t\tHospital: ";
+                                            string hospital;
+                                            cin >> hospital;
+                                            Doctor doc;
+                                            cout << endl;
+                                            cout << "\t\t\tSearch results: "<< endl << endl;
+                                            ifstream doctors("doctors.dat", ios::binary);
+                                            int i = 1;
+                                            while (doctors.read((char*)&doc, sizeof(doc))) {
+                                                if (hospital == doc.getHospital()) {
+                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
+                                                    cout << "\t\t\tName: " << doc.getName() << endl;
+                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
+                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
+                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
+                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
+                                                    cout << endl;
+                                                    i++;
+                                                }
+                                            }
+                                            cout << "\t\t\tPress enter to go back...";
+                                            cin.get();
+                                            cin.get();
+                                            clearScreen();
+                                            break;
+                                        }
+                                        clearScreen();
+
+                                    }       
+                        }
+                        else if(patient_option == 3) {
+                            clearScreen();
+                            cout << "\t\t\tAppointments" << endl << endl;
+                            cout << "\t\t\t1. Book an Appointment" << endl;
+                            cout << "\t\t\t2. My Appointments" << endl;
+                            cout << "\t\t\t3. Cancel an Appointment" << endl;
+                            cout << "\t\t\t4. Go Back" << endl;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            int sub_option;
+                            cin >> sub_option;
+                            while (sub_option != 4) {
+                                if (sub_option == 4) {
+                                    break;
+                                }
+                                if (sub_option == 1) {
+                                    clearScreen();
+                                    cout << "\t\t\tBook Appointment" << endl << endl;
+                                    cout << "\t\t\tHow would you like to look for your doctor?" << endl << endl;
+                                    cout << "\t\t\t1. By Speciality" << endl;
+                                    cout << "\t\t\t2. By Hospital" << endl;
+                                    cout << "\t\t\t3. Go Back" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tChoice: ";
+                                    int sub_sub;
+                                    cin >> sub_sub;
+                                    while (sub_sub != 3) {
+                                        if (sub_sub == 3) {
+                                            break;
+                                        }
+                                        else if(sub_sub == 1) {
+                                            clearScreen();
+                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
+                                            cout << "\t\t\tSpeciality: ";
+                                            string speciality;
+                                            cin >> speciality;
+                                            cout << endl;
+                                            Doctor doc;
+                                            cout << "\t\t\tSearch results: "<< endl << endl;
+                                            ifstream doctors("doctors.dat", ios::binary);
+                                            int i = 1;
+                                            while (doctors.read((char*)&doc, sizeof(doc))) {
+                                                if (speciality == doc.getSpecialization()) {
+                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
+                                                    cout << "\t\t\tName: " << doc.getName() << endl;
+                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
+                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
+                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
+                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
+                                                    cout << endl;
+                                                    i++;
+                                                }
+                                            }
+                                            cout << "\t\t\tPress enter to go back...";
+                                            cin.get();
+                                            cin.get();
+                                            clearScreen();
+                                            break;
+                                            
+
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                        else if (patient_option == 1)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tEdit Profile" << endl
+                                 << endl;
+                            cout << "\t\t\t1. Change Name" << endl;
+                            cout << "\t\t\t2. Change Username" << endl;
+                            cout << "\t\t\t3. Change Email" << endl;
+                            cout << "\t\t\t4. Go Back" << endl;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            int sub_option;
+                            cin >> sub_option;
+                            
+                            while (sub_option != 4)
+                            {
+                                if (sub_option == 4)
+                                {
+                                    break;
+                                }
+                                else if (sub_option == 1)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new name: ";
+                                    string new_name;
+                                    cin >> new_name;
+                                    p.editName(p.getCNIC(), new_name);
+                                    cout << endl;
+                                    cout << "\t\t\tName Successfully Updated" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 2)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new Username: ";
+                                    string new_name;
+                                    cin >> new_name;
+                                    p.editUsername(p.getCNIC(), new_name);
+                                    cout << endl;
+                                    cout << "\t\t\tUsername Successfully Updated" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 3)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tEnter your new Email: ";
+                                    string new_email;
+                                    cin >> new_email;
+                                    while (!emailCheck(new_email))
+                                    {
+                                        cout << "\t\t\tPlease enter a valid email: ";
+                                        cin >> new_email;
+                                    }
+                                    p.editEmail(p.getCNIC(), new_email);
+                                    cout << endl;
+                                    cout << "\t\t\tEmail Successfully Updated" << endl;
+                                    cout << endl;
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                            }
+                        }
+                        else if (patient_option == 2)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tEnter your new password: ";
+                            string new_pass;
+                            cin >> new_pass;
+                            while (!PasswordCheck(new_pass))
+                            {
+                                cout << "\t\t\tPlease enter a valid Password: ";
+                                cin >> new_pass;
+                            }
+                            p.resetPassword(p.getCNIC(), new_pass);
+                            cout << endl;
+                            cout << "\t\t\tPassword Successfully reset!" << endl;
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                            break;
+                        }
                     }
                 }
             }
@@ -332,16 +854,11 @@ public:
         file.close();
         return 0;
     }
-    bool loginDoctor()
+    bool loginDoctor(string userName, string password)
     {
-        string userName;
-        string password;
-        Doctor p;
-        cout << "\t\t\tUsername: ";
-        cin >> userName;
 
-        cout << "\t\t\tPassword: ";
-        cin >> password;
+        Doctor p;
+
         ifstream file("doctors.dat", ios::binary);
         while (file.read((char *)&p, sizeof(p)))
         {
@@ -361,15 +878,9 @@ public:
         file.close();
         return 0;
     }
-    bool loginPatient()
+    bool loginPatient(string username, string password)
     {
-        string username;
-        string password;
 
-        cout << "\t\t\tUsername: ";
-        cin >> username;
-        cout << "\t\t\tPassword: ";
-        cin >> password;
         ifstream file("patients.dat", ios::binary);
         Patient p;
         while (file.read((char *)&p, sizeof(p)))

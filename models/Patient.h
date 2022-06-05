@@ -52,4 +52,92 @@ class Patient : public User {
         setCNIC(obj.getCNIC());
     }
 
+    bool editName(string c, string n)
+    {
+        bool found = false;
+        string file = "patients.dat";
+        fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+        Patient d;
+        while (f.read((char *)&d, sizeof(d)))
+        {
+            if (d.getCNIC() == c)
+            {
+                found = true;
+                d.setName(n);
+                int cur = f.tellg();
+                int size = sizeof(d);
+                f.seekg(cur - size, ios::beg);
+                f.write((char *)&d, sizeof(d));
+                f.close();
+            }
+        }
+        return found;
+    }
+
+        bool editUsername(string c, string u)
+    {
+        bool found = false;
+        string file = "patients.dat";
+        fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+        Patient d;
+        while (f.read((char *)&d, sizeof(d)))
+        {
+            if (d.getCNIC() == c)
+            {
+                found = true;
+                d.setUserName(u);
+                int cur = f.tellg();
+                int size = sizeof(d);
+                f.seekg(cur - size, ios::beg);
+                f.write((char *)&d, sizeof(d));
+                f.close();
+            }
+        }
+        return found;
+    }
+
+            bool editEmail(string c, string e)
+    {
+        bool found = false;
+        string file = "patients.dat";
+        fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+        Patient d;
+        while (f.read((char *)&d, sizeof(d)))
+        {
+            if (d.getCNIC() == c)
+            {
+                found = true;
+                d.setEmail(e);
+                int cur = f.tellg();
+                int size = sizeof(d);
+                f.seekg(cur - size, ios::beg);
+                f.write((char *)&d, sizeof(d));
+                f.close();
+            }
+        }
+        return found;
+    }
+
+                bool resetPassword(string c, string p)
+    {
+        bool found = false;
+        string file = "patients.dat";
+        fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+        Patient d;
+        while (f.read((char *)&d, sizeof(d)))
+        {
+            if (d.getCNIC() == c)
+            {
+                found = true;
+                d.setPassword(p);
+                int cur = f.tellg();
+                int size = sizeof(d);
+                f.seekg(cur - size, ios::beg);
+                f.write((char *)&d, sizeof(d));
+                f.close();
+            }
+        }
+        return found;
+    }
+
 };
