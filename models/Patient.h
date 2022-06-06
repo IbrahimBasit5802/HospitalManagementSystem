@@ -2,11 +2,13 @@
 #include <iostream>
 using namespace std;
 #include "User.h"
+#include "Payment.h"
 class Patient : public User {
     
     char CNIC[100];
     char email[100];
     public:
+    Payment account;
     Patient(string n = "", string u = "", string p = "", string c = "", string e = "") : User(n, u, p) {
         strcpy(CNIC, c.c_str());
 
@@ -26,6 +28,10 @@ class Patient : public User {
     }
     string getEmail() {
         return email;
+    }
+
+    Payment getAccount() {
+        return account;
     }
 
     void setName(string n) {
@@ -50,6 +56,7 @@ class Patient : public User {
         setPassword(obj.getPassword());
         setEmail(obj.getEmail());
         setCNIC(obj.getCNIC());
+        account = obj.account;
     }
 
     bool editName(string c, string n)

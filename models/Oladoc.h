@@ -62,7 +62,7 @@ public:
 
                     cout << "\t\t\tLogin Successful" << endl;
                     cout << endl;
-                    while (admin_option != 8)
+                    while (admin_option != 9)
                     {
 
                         cout << "\t\t\tWelcome, " << userName << "!" << endl;
@@ -75,7 +75,8 @@ public:
                         cout << "\t\t\t5. Edit  a Doctor's hospital" << endl;
                         cout << "\t\t\t6. Edit a Doctor's Hourly Charge: " << endl;
                         cout << "\t\t\t7. Edit a Doctor's Experience: " << endl;
-                        cout << "\t\t\t8. Logout" << endl;
+                        cout << "\t\t\t8. View all Appointments" << endl;
+                        cout << "\t\t\t9. Logout" << endl;
                         cout << endl;
                         Admin a(userName, pass);
                         cout << "\t\t\tChoice: ";
@@ -90,9 +91,21 @@ public:
                             cin.get();
                             clearScreen();
                         }
-                        else if (admin_option == 8)
+                        else if (admin_option == 9)
                         {
                             break;
+                        }
+                        else if (admin_option == 8)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tAppointments" << endl
+                                 << endl;
+                            viewAllAppointments();
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
                         }
                         else if (admin_option == 4)
                         {
@@ -303,6 +316,153 @@ public:
                         if (doctor_option == 5)
                         {
                             break;
+                        }
+                        else if (doctor_option == 3)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tMy Scheduled Appointments" << endl
+                                 << endl;
+                            viewScheduledAppointments(d);
+                            cout << endl;
+                            cout << "\t\t\tPress enter to go back...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (doctor_option == 4)
+                        {
+                            cout << "\t\t\tAppointment Manager" << endl
+                                 << endl;
+                            cout << "\t\t\t1. Complete an Appointment" << endl;
+                            cout << "\t\t\t2. Cancel an appointment" << endl;
+                            cout << "\t\t\t3. Go Back" << endl;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            int ch;
+                            cin >> ch;
+                            while (ch != 3)
+                            {
+                                if (ch == 3)
+                                {
+                                    break;
+                                }
+                                else if (ch == 1)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tAppointments" << endl
+                                         << endl;
+                                    ifstream appointments("appointments.dat", ios::binary);
+                                    Appointment app;
+                                    int num = 0;
+                                    Appointment *apps = new Appointment[num + 1];
+                                    int i = 1;
+                                    while (appointments.read((char *)&app, sizeof(app)))
+                                    {
+                                        if (app.getDoctor().getUserName() == d.getUserName())
+                                        {
+                                            cout << "\t\t\tAppointment " << i << endl
+                                                 << endl;
+                                            cout << "\t\t\tPatient name: " << app.getPatient().getName() << endl;
+                                            cout << "\t\t\tPatient Email: " << app.getPatient().getEmail() << endl;
+                                            if (app.getAppointmentType() == 1)
+                                            {
+                                                cout << "\t\t\tType: In Person" << endl;
+                                            }
+                                            else
+                                            {
+                                                cout << "\t\t\tType: Online" << endl;
+                                            }
+                                            cout << "\t\t\tDate of Appointment: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                                                 << app.getDate().getHour() << endl;
+                                            cout << "\t\t\tDate of Booking: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                                                 << app.getDate().getHour() << endl;
+                                            cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
+                                            cout << endl;
+                                            i++;
+                                            apps[num++] = app;
+                                        }
+                                    }
+                                    appointments.close();
+                                    cout << endl;
+                                    cout << "\t\t\tChoice: ";
+                                    int x;
+                                    cin >> x;
+                                    clearScreen();
+                                    cout << "\t\t\tWhen did the patient come to the appointment?" << endl
+                                         << endl;
+                                    int y, m, day;
+                                    cout << "\t\t\tYear: ";
+                                    cin >> y;
+                                    cout << "Month: ";
+                                    cin >> m;
+                                    cout << "Day: ";
+                                    cin >> day;
+                                    Date date_of_completion(y, m, day);
+
+                                    // update patient file
+                                    string file = "patients.dat";
+                                    fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+                                    Patient ok;
+                                    while (f.read((char *)&d, sizeof(d)))
+                                    {
+                                        if (ok.getCNIC() == apps[x - 1].getPatient().getCNIC())
+                                        {
+                                            if (day == apps[x - 1].getDate().getDay() + 1)
+                                            {
+                                                // withdraw according to type:
+                                                if (apps[x - 1].getAppointmentType() == 1)
+                                                {
+                                                    ok.account.withDraw(0.3 * (d.getHourlyCharge()));
+                                                }
+                                                else
+                                                {
+                                                    ok.account.withDraw(0.3 * (0.7 * (d.getHourlyCharge())));
+                                                }
+                                            }
+                                            else if (day == apps[x - 1].getDate().getDay() + 2)
+                                            {
+                                                // withdraw according to type:
+                                                if (apps[x - 1].getAppointmentType() == 1)
+                                                {
+                                                    ok.account.withDraw(0.6 * (d.getHourlyCharge()));
+                                                }
+                                                else
+                                                {
+                                                    ok.account.withDraw(0.6 * (0.7 * (d.getHourlyCharge())));
+                                                }
+                                            }
+                                            else if (day == apps[x - 1].getDate().getDay() + 3)
+                                            {
+                                                // withdraw according to type:
+                                                if (apps[x - 1].getAppointmentType() == 1)
+                                                {
+                                                    ok.account.withDraw(d.getHourlyCharge());
+                                                }
+                                                else
+                                                {
+                                                    ok.account.withDraw(0.7 * (d.getHourlyCharge()));
+                                                }
+                                            }
+
+                                            int cur = f.tellg();
+                                            int size = sizeof(ok);
+                                            f.seekg(cur - size, ios::beg);
+                                            f.write((char *)&ok, sizeof(ok));
+                                            f.close();
+                                        }
+                                    }
+                                    // remove appointment from file
+                                    apps[x - 1].setAppointmentStatus("Completed");
+                                    clearScreen();
+                                    cout << "The appointment has been completed" << endl
+                                         << endl;
+                                    cout << "\t\t\tPress enter to go back";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                            }
                         }
                         else if (doctor_option == 2)
                         {
@@ -574,7 +734,7 @@ public:
                     }
                     f.close();
 
-                    while (patient_option != 6)
+                    while (patient_option != 7)
                     {
                         cout << "\t\t\tWelcome, " << p.getName() << endl
                              << endl;
@@ -583,13 +743,58 @@ public:
                         cout << "\t\t\t3. Appointments" << endl;
                         cout << "\t\t\t4. Recharge Account" << endl;
                         cout << "\t\t\t5. Search Doctors" << endl;
-                        cout << "\t\t\t6. Logout" << endl;
+                        cout << "\t\t\t6. Check Balance" << endl;
+                        cout << "\t\t\t7. Logout" << endl;
                         cout << endl;
                         cout << "\t\t\tChoice: ";
                         cin >> patient_option;
-                        if (patient_option == 6)
+                        if (patient_option == 7)
                         {
                             break;
+                        }
+                        else if (patient_option == 6)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tBalance Inquiry" << endl
+                                 << endl;
+                            cout << "\t\t\tYour Balance is: " << p.account.getBalance() << endl
+                                 << endl;
+                            cout << "\t\t\tPress enter to go back...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
+                        }
+                        else if (patient_option == 4)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tRecharge Account" << endl;
+                            cout << endl;
+                            cout << "\t\t\tAmount to add: ";
+                            int amount;
+                            cin >> amount;
+                            string file = "patients.dat";
+                            fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+                            Patient d;
+                            while (f.read((char *)&d, sizeof(d)))
+                            {
+                                if (d.getCNIC() == p.getCNIC())
+                                {
+                                    d.account.depositMoney(amount);
+                                    p = d;
+                                    int cur = f.tellg();
+                                    int size = sizeof(d);
+                                    f.seekg(cur - size, ios::beg);
+                                    f.write((char *)&d, sizeof(d));
+                                    f.close();
+                                }
+                            }
+                            clearScreen();
+                            cout << "\t\t\tAccount successfully Recharged" << endl
+                                 << endl;
+                            cout << "\t\t\tPress enter to go back...";
+                            cin.get();
+                            cin.get();
+                            clearScreen();
                         }
                         else if (patient_option == 5)
                         {
@@ -669,13 +874,29 @@ public:
                                 {
                                     break;
                                 }
-                                else if(sub_option == 2) {
+                                else if (sub_option == 3)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tAppointment Cancellation" << endl
+                                         << endl;
+                                    Patient temp = deleteAppointment(p);
+                                    p = temp;
+                                    cout << endl;
+                                    cout << "\t\t\tAppointment successfully cancelled" << endl;
+                                    cout << endl
+                                         << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                }
+                                else if (sub_option == 2)
+                                {
                                     clearScreen();
                                     cout << "\t\t\tMy Appointments: " << endl;
                                     cout << endl;
                                     viewPatientAppointments(p);
                                     cout << endl;
-                                    cout << "Press enter to go back...";
+                                    cout << "\t\t\tPress enter to go back...";
                                     cin.get();
                                     cin.get();
                                     clearScreen();
@@ -719,15 +940,17 @@ public:
                                             int doc_choice;
                                             cin >> doc_choice;
                                             clearScreen();
-                                            cout << "\t\t\tAppointment Type" << endl << endl;
-                                            cout << "\t\t\t1. In person" << endl; 
+                                            cout << "\t\t\tAppointment Type" << endl
+                                                 << endl;
+                                            cout << "\t\t\t1. In person" << endl;
                                             cout << "\t\t\t2. Online" << endl;
                                             int type;
                                             cout << endl;
                                             cout << "\t\t\tChoice: ";
                                             cin >> type;
                                             clearScreen();
-                                            cout << "\t\t\tDate of Booking" << endl << endl;
+                                            cout << "\t\t\tDate of Booking" << endl
+                                                 << endl;
                                             cout << "\t\t\tYear: ";
                                             int year;
                                             int month;
@@ -742,9 +965,46 @@ public:
                                             cin >> hour;
                                             Date date(year, month, day, hour);
                                             bool created = createAppointment(p, docs[doc_choice - 1], type, date);
-                                            if (created) {
+
+                                            string file = "patients.dat";
+                                            fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+                                            Patient d;
+                                            while (f.read((char *)&d, sizeof(d)))
+                                            {
+                                                if (d.getCNIC() == p.getCNIC())
+                                                {
+                                                    if (type == 2)
+                                                    {
+                                                        d.account.withDraw(0.7 * (docs[doc_choice - 1].getHourlyCharge()));
+                                                    }
+                                                    else
+                                                    {
+                                                        d.account.withDraw(docs[doc_choice - 1].getHourlyCharge());
+                                                    }
+                                                    p = d;
+                                                    int cur = f.tellg();
+                                                    int size = sizeof(d);
+                                                    f.seekg(cur - size, ios::beg);
+                                                    f.write((char *)&d, sizeof(d));
+                                                    f.close();
+                                                }
+                                            }
+                                            clearScreen();
+                                            cout << "\t\t\tPayment Method" << endl
+                                                 << endl;
+                                            cout << "\t\t\t1. JazzCash" << endl;
+                                            cout << "\t\t\t2. Easypaisa" << endl;
+                                            cout << "\t\t\t3. UnionPay" << endl;
+                                            cout << "\t\t\t4. Bank Transfer" << endl;
+                                            int payment_option;
+                                            cout << endl;
+                                            cout << "\t\t\tChoice: ";
+                                            cin >> payment_option;
+                                            clearScreen();
+                                            if (created)
+                                            {
                                                 cout << endl;
-                                                cout << "\t\t\tAppointment successfully created. Please be sure to be on time for your appointment." << endl;
+                                                cout << "\t\t\tAppointment successfully created. Your account has been charged. Please be sure to be on time for your appointment." << endl;
                                             }
                                             cout << "\t\t\tPress enter to go back...";
                                             cin.get();
@@ -752,8 +1012,9 @@ public:
                                             clearScreen();
                                             break;
                                         }
-                                        else if(sub_sub == 2) {
-                                          clearScreen();
+                                        else if (sub_sub == 2)
+                                        {
+                                            clearScreen();
                                             cout << "\t\t\tSearching for Doctors" << endl
                                                  << endl;
                                             cout << "\t\t\tHospital: ";
@@ -769,15 +1030,17 @@ public:
                                             int doc_choice;
                                             cin >> doc_choice;
                                             clearScreen();
-                                            cout << "\t\t\tAppointment Type" << endl << endl;
-                                            cout << "\t\t\t1. In person" << endl; 
+                                            cout << "\t\t\tAppointment Type" << endl
+                                                 << endl;
+                                            cout << "\t\t\t1. In person" << endl;
                                             cout << "\t\t\t2. Online" << endl;
                                             int type;
                                             cout << endl;
                                             cout << "\t\t\tChoice: ";
                                             cin >> type;
                                             clearScreen();
-                                            cout << "\t\t\tDate of Booking" << endl << endl;
+                                            cout << "\t\t\tDate of Booking" << endl
+                                                 << endl;
                                             cout << "\t\t\tYear: ";
                                             int year;
                                             int month;
@@ -792,16 +1055,53 @@ public:
                                             cin >> hour;
                                             Date date(year, month, day, hour);
                                             bool created = createAppointment(p, docs[doc_choice - 1], type, date);
-                                            if (created) {
+
+                                            string file = "patients.dat";
+                                            fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+                                            Patient d;
+                                            while (f.read((char *)&d, sizeof(d)))
+                                            {
+                                                if (d.getCNIC() == p.getCNIC())
+                                                {
+                                                    if (type == 2)
+                                                    {
+                                                        d.account.withDraw(0.7 * (docs[doc_choice - 1].getHourlyCharge()));
+                                                    }
+                                                    else
+                                                    {
+                                                        d.account.withDraw(docs[doc_choice - 1].getHourlyCharge());
+                                                    }
+                                                    p = d;
+                                                    int cur = f.tellg();
+                                                    int size = sizeof(d);
+                                                    f.seekg(cur - size, ios::beg);
+                                                    f.write((char *)&d, sizeof(d));
+                                                    f.close();
+                                                }
+                                            }
+                                            clearScreen();
+                                            cout << "\t\t\tPayment Method" << endl
+                                                 << endl;
+                                            cout << "\t\t\t1. JazzCash" << endl;
+                                            cout << "\t\t\t2. Easypaisa" << endl;
+                                            cout << "\t\t\t3. UnionPay" << endl;
+                                            cout << "\t\t\t4. Bank Transfer" << endl;
+                                            int payment_option;
+                                            cout << endl;
+                                            cout << "\t\t\tChoice: ";
+                                            cin >> payment_option;
+                                            clearScreen();
+                                            if (created)
+                                            {
                                                 cout << endl;
-                                                cout << "\t\t\tAppointment successfully created. Please be sure to be on time for your appointment." << endl;
+                                                cout << "\t\t\tAppointment successfully created. Your account has been charged. Please be sure to be on time for your appointment." << endl;
                                             }
                                             cout << "\t\t\tPress enter to go back...";
                                             cin.get();
                                             cin.get();
                                             clearScreen();
                                             break;
-                                        } 
+                                        }
                                     }
                                 }
                             }
@@ -1372,36 +1672,251 @@ public:
         return arr;
     }
 
-    bool createAppointment(Patient p, Doctor d, int type, Date booking_date) {
+    bool createAppointment(Patient p, Doctor d, int type, Date booking_date)
+    {
         Appointment a(d, p, booking_date, type);
         a.setAppointmentStatus("Pending");
         ofstream appointments("appointments.dat", ios::binary | ios::app);
-        appointments.write((char*)&a, sizeof(a));
+        // p.account.withDraw(d.getHourlyCharge());
+
+        appointments.write((char *)&a, sizeof(a));
+        appointments.close();
         return 1;
     }
-    void viewPatientAppointments(Patient p) {
+    void viewPatientAppointments(Patient p)
+    {
         ifstream appointments("appointments.dat", ios::binary);
         Appointment app;
         int i = 1;
-        while (appointments.read((char*)&app, sizeof(app))) {
-            if (app.getPatient().getUserName() == p.getUserName()) {
-                cout << "\t\t\tAppointment " << i << endl << endl;
+        while (appointments.read((char *)&app, sizeof(app)))
+        {
+            if (app.getPatient().getUserName() == p.getUserName())
+            {
+                cout << "\t\t\tAppointment " << i << endl
+                     << endl;
                 cout << "\t\t\tDoctor name: " << app.getDoctor().getName() << endl;
                 cout << "\t\t\tDoctor Speciality: " << app.getDoctor().getSpecialization() << endl;
-                if (app.getAppointmentType() == 1) {
-                    cout << "\t\t\tType: In Person" << endl; 
+                if (app.getAppointmentType() == 1)
+                {
+                    cout << "\t\t\tType: In Person" << endl;
                 }
-                else {
+                else
+                {
                     cout << "\t\t\tType: Online" << endl;
                 }
                 cout << "\t\t\tDate of Appointment: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
-                << app.getDate().getHour() << endl;
+                     << app.getDate().getHour() << endl;
                 cout << "\t\t\tDate of Booking: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
-                << app.getDate().getHour() << endl;
+                     << app.getDate().getHour() << endl;
                 cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
                 cout << endl;
                 i++;
             }
         }
+        appointments.close();
+    }
+    Patient deleteAppointment(Patient p)
+    {
+        cout << "\t\t\tYour Appointments: " << endl
+             << endl;
+        ifstream appointments("appointments.dat", ios::binary);
+        Appointment app;
+        int i = 1;
+        int num = 0;
+        Appointment *apps = new Appointment[num + 1];
+        Patient pa;
+        Doctor d;
+        Date booking_date;
+        Date date;
+        while (appointments.read((char *)&app, sizeof(app)))
+        {
+            pa = app.getPatient();
+            d = app.getDoctor();
+            booking_date = app.getDate();
+            date = app.getDate();
+            if (pa.getUserName() == p.getUserName())
+            {
+                cout << "\t\t\tAppointment " << i << endl
+                     << endl;
+                cout << "\t\t\tDoctor name: " << d.getName() << endl;
+                cout << "\t\t\tDoctor Speciality: " << d.getSpecialization() << endl;
+                if (app.getAppointmentType() == 1)
+                {
+                    cout << "\t\t\tType: In Person" << endl;
+                }
+                else
+                {
+                    cout << "\t\t\tType: Online" << endl;
+                }
+                cout << "\t\t\tDate of Appointment: " << date.getYear() << "/" << date.getMonth() << "/" << date.getDay() << " | "
+                     << date.getHour() << endl;
+                cout << "\t\t\tDate of Booking: " << booking_date.getYear() << "/" << booking_date.getMonth() << "/" << booking_date.getDay() << " | "
+                     << booking_date.getHour() << endl;
+                cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
+                cout << endl;
+                i++;
+                apps[num++] = app;
+            }
+        }
+
+        cout << endl;
+        cout << "\t\t\tSelect the appointment to cancel: ";
+        int choice;
+        cin >> choice;
+        bool found = false;
+        Appointment a;
+        Date de = apps[choice - 1].getDate();
+        Date des;
+        ofstream temp("temp.dat", ios::binary);
+        while (appointments.read((char *)&a, sizeof(a)))
+        {
+            if (pa.getUserName() == p.getUserName())
+            {
+                des = a.getDate();
+                if (de.getDay() != des.getDay() || de.getMonth() != des.getMonth() || de.getHour() != des.getHour())
+                {
+
+                    found = true;
+                    temp.write((char *)&a, sizeof(a));
+                }
+            }
+        }
+        clearScreen();
+        cout << "\t\t\tEnter Date of Cancellation" << endl
+             << endl;
+        int year;
+        int month;
+        int day;
+        cout << "\t\t\tYear: ";
+        cin >> year;
+        cout << "\t\t\tMonth: ";
+        cin >> month;
+        cout << "\t\t\tDay: ";
+        cin >> day;
+        Date cancellation_date(year, month, day);
+        booking_date = apps[choice - 1].getBookingDate();
+
+        string file = "patients.dat";
+        fstream f(file.c_str(), ios::in | ios::binary | ios::out);
+        Patient pat;
+        // refund
+        while (f.read((char *)&d, sizeof(d)))
+        {
+            if (d.getCNIC() == p.getCNIC())
+            {
+                if (apps[choice - 1].getAppointmentType() == 1)
+                {
+                    if (cancellation_date.getDay() - booking_date.getDay() == 0)
+                    {
+                        pat.account.depositMoney(d.getHourlyCharge());
+                    }
+                    else if (cancellation_date.getDay() - booking_date.getDay() == 1)
+                    {
+                        pat.account.depositMoney(0.6 * (d.getHourlyCharge()));
+                    }
+                    else if (cancellation_date.getDay() - booking_date.getDay() == 2)
+                    {
+                        pat.account.depositMoney(0.3 * (d.getHourlyCharge()));
+                    }
+                }
+                else
+                {
+                    if (cancellation_date.getDay() - booking_date.getDay() == 0)
+                    {
+                        p.account.depositMoney(0.7 * (d.getHourlyCharge()));
+                    }
+                    else if (cancellation_date.getDay() - booking_date.getDay() == 1)
+                    {
+                        p.account.depositMoney(0.6 * (0.7 * (d.getHourlyCharge())));
+                    }
+                    else if (cancellation_date.getDay() - booking_date.getDay() == 2)
+                    {
+                        p.account.depositMoney(0.3 * (0.7 * (d.getHourlyCharge())));
+                    }
+                }
+                int cur = f.tellg();
+                int size = sizeof(d);
+                f.seekg(cur - size, ios::beg);
+                f.write((char *)&d, sizeof(d));
+                f.close();
+            }
+        }
+
+        appointments.close();
+        temp.close();
+        remove("appointments.dat");
+        rename("temp.dat", "appointments.dat");
+
+        return pat;
+    }
+
+    Appointment *viewScheduledAppointments(Doctor d)
+    {
+        ifstream appointments("appointments.dat", ios::binary);
+        Appointment app;
+        int num = 0;
+        Appointment *apps = new Appointment[num + 1];
+        int i = 1;
+        while (appointments.read((char *)&app, sizeof(app)))
+        {
+            if (app.getDoctor().getUserName() == d.getUserName())
+            {
+                cout << "\t\t\tAppointment " << i << endl
+                     << endl;
+                cout << "\t\t\tPatient name: " << app.getPatient().getName() << endl;
+                cout << "\t\t\tPatient Email: " << app.getPatient().getEmail() << endl;
+                if (app.getAppointmentType() == 1)
+                {
+                    cout << "\t\t\tType: In Person" << endl;
+                }
+                else
+                {
+                    cout << "\t\t\tType: Online" << endl;
+                }
+                cout << "\t\t\tDate of Appointment: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                     << app.getDate().getHour() << endl;
+                cout << "\t\t\tDate of Booking: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                     << app.getDate().getHour() << endl;
+                cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
+                cout << endl;
+                i++;
+                apps[num++] = app;
+            }
+        }
+        appointments.close();
+        return apps;
+    }
+
+    void viewAllAppointments()
+    {
+
+        ifstream appointments("appointments.dat", ios::binary);
+        Appointment app;
+        int i = 1;
+
+        cout << "\t\t\tAppointment " << i << endl
+             << endl;
+        cout << "\t\t\tPatient name: " << app.getPatient().getName() << endl;
+        cout << "\t\t\tPatient Email: " << app.getPatient().getEmail() << endl;
+        cout << "\t\t\tDoctor Name: " << app.getDoctor().getName() << endl;
+        cout << "\t\t\tDoctor Speciality: " << app.getDoctor().getSpecialization() << endl;
+
+        if (app.getAppointmentType() == 1)
+        {
+            cout << "\t\t\tType: In Person" << endl;
+        }
+        else
+        {
+            cout << "\t\t\tType: Online" << endl;
+        }
+        cout << "\t\t\tDate of Appointment: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+             << app.getDate().getHour() << endl;
+        cout << "\t\t\tDate of Booking: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+             << app.getDate().getHour() << endl;
+        cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
+        cout << endl;
+        i++;
+
+        appointments.close();
     }
 };

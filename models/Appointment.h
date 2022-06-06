@@ -35,6 +35,9 @@ class Appointment {
     Date getDate() {
         return date;
     }
+    Date getBookingDate() {
+        return booking_date;
+    }
     void setPatient(Patient patient) {
         p = patient;
     }
