@@ -9,6 +9,7 @@
 #include <fstream>
 #include "Oncologist.h"
 #include <stdlib.h>
+#include "Appointment.h"
 #include <cstring>
 using namespace std;
 class Oladoc
@@ -590,85 +591,70 @@ public:
                         {
                             break;
                         }
-                        else if(patient_option == 5) {
-                                    clearScreen();
-                                    cout << "\t\t\tHow would you like to look for your doctor?" << endl << endl;
-                                    cout << "\t\t\t1. By Speciality" << endl;
-                                    cout << "\t\t\t2. By Hospital" << endl;
-                                    cout << "\t\t\t3. Go Back" << endl;
-                                    cout << endl;
-                                    cout << "\t\t\tChoice: ";
-                                    int sub_option;
-                                    cin >> sub_option;
-                                    while (sub_option != 3) {
-                                        if (sub_option == 3) {
-                                            break;
-                                        }
-                                        else if(sub_option == 1) {
-                                            clearScreen();
-                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
-                                            cout << "\t\t\tSpeciality: ";
-                                            string speciality;
-                                            cin >> speciality;
-                                            cout << endl;
-                                            Doctor doc;
-                                            cout << "\t\t\tSearch results: "<< endl << endl;
-                                            ifstream doctors("doctors.dat", ios::binary);
-                                            int i = 1;
-                                            while (doctors.read((char*)&doc, sizeof(doc))) {
-                                                if (speciality == doc.getSpecialization()) {
-                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
-                                                    cout << "\t\t\tName: " << doc.getName() << endl;
-                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
-                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
-                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
-                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
-                                                    cout << endl;
-                                                    i++;
-                                                }
-                                            }
-                                            cout << "\t\t\tPress enter to go back...";
-                                            cin.get();
-                                            cin.get();
-                                            clearScreen();
-                                            break;
-                                        }
-                                        else if(sub_option == 2) {
-                                            clearScreen();
-                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
-                                            cout << "\t\t\tHospital: ";
-                                            string hospital;
-                                            cin >> hospital;
-                                            Doctor doc;
-                                            cout << endl;
-                                            cout << "\t\t\tSearch results: "<< endl << endl;
-                                            ifstream doctors("doctors.dat", ios::binary);
-                                            int i = 1;
-                                            while (doctors.read((char*)&doc, sizeof(doc))) {
-                                                if (hospital == doc.getHospital()) {
-                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
-                                                    cout << "\t\t\tName: " << doc.getName() << endl;
-                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
-                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
-                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
-                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
-                                                    cout << endl;
-                                                    i++;
-                                                }
-                                            }
-                                            cout << "\t\t\tPress enter to go back...";
-                                            cin.get();
-                                            cin.get();
-                                            clearScreen();
-                                            break;
-                                        }
-                                        clearScreen();
-
-                                    }       
-                        }
-                        else if(patient_option == 3) {
+                        else if (patient_option == 5)
+                        {
                             clearScreen();
-                            cout << "\t\t\tAppointments" << endl << endl;
+                            cout << "\t\t\tHow would you like to look for your doctor?" << endl
+                                 << endl;
+                            cout << "\t\t\t1. By Speciality" << endl;
+                            cout << "\t\t\t2. By Hospital" << endl;
+                            cout << "\t\t\t3. Go Back" << endl;
+                            cout << endl;
+                            cout << "\t\t\tChoice: ";
+                            int sub_option;
+                            cin >> sub_option;
+                            while (sub_option != 3)
+                            {
+                                if (sub_option == 3)
+                                {
+                                    break;
+                                }
+                                else if (sub_option == 1)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tSearching for Doctors" << endl
+                                         << endl;
+                                    cout << "\t\t\tSpeciality: ";
+                                    string speciality;
+                                    cin >> speciality;
+                                    cout << endl;
+                                    Doctor doc;
+                                    cout << "\t\t\tSearch results: " << endl
+                                         << endl;
+                                    searchDoctorsBySpecialization(speciality);
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 2)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tSearching for Doctors" << endl
+                                         << endl;
+                                    cout << "\t\t\tHospital: ";
+                                    string hospital;
+                                    cin >> hospital;
+                                    Doctor doc;
+                                    cout << endl;
+                                    cout << "\t\t\tSearch results: " << endl
+                                         << endl;
+                                    searchDoctorsByHospital(hospital);
+                                    cout << "\t\t\tPress enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                clearScreen();
+                            }
+                        }
+                        else if (patient_option == 3)
+                        {
+                            clearScreen();
+                            cout << "\t\t\tAppointments" << endl
+                                 << endl;
                             cout << "\t\t\t1. Book an Appointment" << endl;
                             cout << "\t\t\t2. My Appointments" << endl;
                             cout << "\t\t\t3. Cancel an Appointment" << endl;
@@ -677,14 +663,31 @@ public:
                             cout << "\t\t\tChoice: ";
                             int sub_option;
                             cin >> sub_option;
-                            while (sub_option != 4) {
-                                if (sub_option == 4) {
+                            while (sub_option != 4)
+                            {
+                                if (sub_option == 4)
+                                {
                                     break;
                                 }
-                                if (sub_option == 1) {
+                                else if(sub_option == 2) {
                                     clearScreen();
-                                    cout << "\t\t\tBook Appointment" << endl << endl;
-                                    cout << "\t\t\tHow would you like to look for your doctor?" << endl << endl;
+                                    cout << "\t\t\tMy Appointments: " << endl;
+                                    cout << endl;
+                                    viewPatientAppointments(p);
+                                    cout << endl;
+                                    cout << "Press enter to go back...";
+                                    cin.get();
+                                    cin.get();
+                                    clearScreen();
+                                    break;
+                                }
+                                else if (sub_option == 1)
+                                {
+                                    clearScreen();
+                                    cout << "\t\t\tBook Appointment" << endl
+                                         << endl;
+                                    cout << "\t\t\tHow would you like to look for your doctor?" << endl
+                                         << endl;
                                     cout << "\t\t\t1. By Speciality" << endl;
                                     cout << "\t\t\t2. By Hospital" << endl;
                                     cout << "\t\t\t3. Go Back" << endl;
@@ -692,43 +695,114 @@ public:
                                     cout << "\t\t\tChoice: ";
                                     int sub_sub;
                                     cin >> sub_sub;
-                                    while (sub_sub != 3) {
-                                        if (sub_sub == 3) {
+                                    while (sub_sub != 3)
+                                    {
+                                        if (sub_sub == 3)
+                                        {
                                             break;
                                         }
-                                        else if(sub_sub == 1) {
+                                        else if (sub_sub == 1)
+                                        {
                                             clearScreen();
-                                            cout << "\t\t\tSearching for Doctors" << endl << endl;
+                                            cout << "\t\t\tSearching for Doctors" << endl
+                                                 << endl;
                                             cout << "\t\t\tSpeciality: ";
                                             string speciality;
                                             cin >> speciality;
                                             cout << endl;
-                                            Doctor doc;
-                                            cout << "\t\t\tSearch results: "<< endl << endl;
-                                            ifstream doctors("doctors.dat", ios::binary);
-                                            int i = 1;
-                                            while (doctors.read((char*)&doc, sizeof(doc))) {
-                                                if (speciality == doc.getSpecialization()) {
-                                                    cout << "\t\t\tDoctor " << i << ": " << endl << endl;
-                                                    cout << "\t\t\tName: " << doc.getName() << endl;
-                                                    cout << "\t\t\tHospital: "<< doc.getHospital() << endl;
-                                                    cout << "\t\t\tLocation: "<< doc.getLocation() << endl;
-                                                    cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
-                                                    cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
-                                                    cout << endl;
-                                                    i++;
-                                                }
+
+                                            cout << "\t\t\tSearch results: " << endl
+                                                 << endl;
+                                            Doctor *docs = searchDoctorsBySpecialization(speciality);
+                                            cout << endl;
+                                            cout << "\t\t\tSelect: ";
+                                            int doc_choice;
+                                            cin >> doc_choice;
+                                            clearScreen();
+                                            cout << "\t\t\tAppointment Type" << endl << endl;
+                                            cout << "\t\t\t1. In person" << endl; 
+                                            cout << "\t\t\t2. Online" << endl;
+                                            int type;
+                                            cout << endl;
+                                            cout << "\t\t\tChoice: ";
+                                            cin >> type;
+                                            clearScreen();
+                                            cout << "\t\t\tDate of Booking" << endl << endl;
+                                            cout << "\t\t\tYear: ";
+                                            int year;
+                                            int month;
+                                            int day;
+                                            int hour;
+                                            cin >> year;
+                                            cout << "\t\t\tMonth: ";
+                                            cin >> month;
+                                            cout << "\t\t\tDay: ";
+                                            cin >> day;
+                                            cout << "\t\t\tHour: ";
+                                            cin >> hour;
+                                            Date date(year, month, day, hour);
+                                            bool created = createAppointment(p, docs[doc_choice - 1], type, date);
+                                            if (created) {
+                                                cout << endl;
+                                                cout << "\t\t\tAppointment successfully created. Please be sure to be on time for your appointment." << endl;
                                             }
                                             cout << "\t\t\tPress enter to go back...";
                                             cin.get();
                                             cin.get();
                                             clearScreen();
                                             break;
-                                            
-
                                         }
-                                    }
+                                        else if(sub_sub == 2) {
+                                          clearScreen();
+                                            cout << "\t\t\tSearching for Doctors" << endl
+                                                 << endl;
+                                            cout << "\t\t\tHospital: ";
+                                            string hospital;
+                                            cin >> hospital;
+                                            cout << endl;
 
+                                            cout << "\t\t\tSearch results: " << endl
+                                                 << endl;
+                                            Doctor *docs = searchDoctorsByHospital(hospital);
+                                            cout << endl;
+                                            cout << "\t\t\tSelect: ";
+                                            int doc_choice;
+                                            cin >> doc_choice;
+                                            clearScreen();
+                                            cout << "\t\t\tAppointment Type" << endl << endl;
+                                            cout << "\t\t\t1. In person" << endl; 
+                                            cout << "\t\t\t2. Online" << endl;
+                                            int type;
+                                            cout << endl;
+                                            cout << "\t\t\tChoice: ";
+                                            cin >> type;
+                                            clearScreen();
+                                            cout << "\t\t\tDate of Booking" << endl << endl;
+                                            cout << "\t\t\tYear: ";
+                                            int year;
+                                            int month;
+                                            int day;
+                                            int hour;
+                                            cin >> year;
+                                            cout << "\t\t\tMonth: ";
+                                            cin >> month;
+                                            cout << "\t\t\tDay: ";
+                                            cin >> day;
+                                            cout << "\t\t\tHour: ";
+                                            cin >> hour;
+                                            Date date(year, month, day, hour);
+                                            bool created = createAppointment(p, docs[doc_choice - 1], type, date);
+                                            if (created) {
+                                                cout << endl;
+                                                cout << "\t\t\tAppointment successfully created. Please be sure to be on time for your appointment." << endl;
+                                            }
+                                            cout << "\t\t\tPress enter to go back...";
+                                            cin.get();
+                                            cin.get();
+                                            clearScreen();
+                                            break;
+                                        } 
+                                    }
                                 }
                             }
                         }
@@ -745,7 +819,7 @@ public:
                             cout << "\t\t\tChoice: ";
                             int sub_option;
                             cin >> sub_option;
-                            
+
                             while (sub_option != 4)
                             {
                                 if (sub_option == 4)
@@ -1245,5 +1319,89 @@ public:
             }
         }
         return 1;
+    }
+    Doctor *searchDoctorsBySpecialization(string s)
+    {
+        int number = 0;
+        Doctor *arr = new Doctor[number + 1];
+        Doctor doc;
+        ifstream doctors("doctors.dat", ios::binary);
+        int i = 1;
+        while (doctors.read((char *)&doc, sizeof(doc)))
+        {
+            if (s == doc.getSpecialization())
+            {
+                arr[number++] = doc;
+                cout << "\t\t\tDoctor " << i << ": " << endl
+                     << endl;
+                cout << "\t\t\tName: " << doc.getName() << endl;
+                cout << "\t\t\tHospital: " << doc.getHospital() << endl;
+                cout << "\t\t\tLocation: " << doc.getLocation() << endl;
+                cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
+                cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
+                cout << endl;
+                i++;
+            }
+        }
+        return arr;
+    }
+
+    Doctor *searchDoctorsByHospital(string s)
+    {
+        int number = 0;
+        Doctor *arr = new Doctor[number + 1];
+        Doctor doc;
+        ifstream doctors("doctors.dat", ios::binary);
+        int i = 1;
+        while (doctors.read((char *)&doc, sizeof(doc)))
+        {
+            if (s == doc.getHospital())
+            {
+                arr[number++] = doc;
+                cout << "\t\t\tDoctor " << i << ": " << endl
+                     << endl;
+                cout << "\t\t\tName: " << doc.getName() << endl;
+                cout << "\t\t\tHospital: " << doc.getHospital() << endl;
+                cout << "\t\t\tLocation: " << doc.getLocation() << endl;
+                cout << "\t\t\tHourly rate: " << doc.getHourlyCharge() << endl;
+                cout << "\t\t\tSpecialization: " << doc.getSpecialization() << endl;
+                cout << endl;
+                i++;
+            }
+        }
+        return arr;
+    }
+
+    bool createAppointment(Patient p, Doctor d, int type, Date booking_date) {
+        Appointment a(d, p, booking_date, type);
+        a.setAppointmentStatus("Pending");
+        ofstream appointments("appointments.dat", ios::binary | ios::app);
+        appointments.write((char*)&a, sizeof(a));
+        return 1;
+    }
+    void viewPatientAppointments(Patient p) {
+        ifstream appointments("appointments.dat", ios::binary);
+        Appointment app;
+        int i = 1;
+        while (appointments.read((char*)&app, sizeof(app))) {
+            if (app.getPatient().getUserName() == p.getUserName()) {
+                cout << "\t\t\tAppointment " << i << endl << endl;
+                cout << "\t\t\tDoctor name: " << app.getDoctor().getName() << endl;
+                cout << "\t\t\tDoctor Speciality: " << app.getDoctor().getSpecialization() << endl;
+                if (app.getAppointmentType() == 1) {
+                    cout << "\t\t\tType: In Person" << endl; 
+                }
+                else {
+                    cout << "\t\t\tType: Online" << endl;
+                }
+                cout << "\t\t\tDate of Appointment: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                << app.getDate().getHour() << endl;
+                cout << "\t\t\tDate of Booking: " << app.getDate().getYear() << "/" << app.getDate().getMonth() << "/" << app.getDate().getDay() << " | "
+                << app.getDate().getHour() << endl;
+                cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
+                cout << endl;
+                i++;
+            }
+        }
     }
 };

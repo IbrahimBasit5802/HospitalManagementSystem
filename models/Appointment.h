@@ -9,13 +9,18 @@ class Appointment {
     Patient p;
     Doctor doc;
     Date date;
+    Date booking_date;
     int appointment_type;
     char appointment_status[100];
     public:
+    Appointment() {
+        
+    }
     Appointment(Doctor doctor, Patient patient, Date d, int type) {
         doc = doctor;
         p = patient;
         date = d;
+        booking_date = d;
         appointment_type = type;
         string status = "Pending";
         strcpy(appointment_status, status.c_str());
