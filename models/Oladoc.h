@@ -21,7 +21,10 @@ public:
         while (true)
         {
             clearScreen();
-            cout << "\t\t\t\tWelcome to Oladoc!" << endl;
+            cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl << endl;
+            cout << "\t\t\t\t\t\t\t\t\t\t\t\tWelcome to Oladoc!" << endl << endl;
+            cout << "\t\t\t\t\t\t\t\t\t\t\t\tYour health buddy" << endl << endl;
+            cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl << endl;
             cout << "\t\t\t1. Admin" << endl;
             cout << "\t\t\t2. Doctor" << endl;
             cout << "\t\t\t3. Patient" << endl
@@ -331,13 +334,12 @@ public:
 
                             } 
                             cout << endl;
-                            cout << "Your overall rating: " << d.getAverageRating() << endl;
+                            cout << "\t\t\tYour overall rating: " << d.getAverageRating() << endl;
                             cout << endl;
                             cout << "\t\t\tPress enter to go back...";
                             cin.get();
                             cin.get();
                             clearScreen();
-                            break;
                         
                         }
                         else if (doctor_option == 3)
@@ -615,7 +617,7 @@ public:
             }
             else if (user_type == 3)
             {
-                cout << "\t\t\tWelcome Patient!" << endl;
+                cout << "\t\t\tWelcome Patient!" << endl << endl;
                 cout << "\t\t\t1. Login" << endl;
                 cout << "\t\t\t2. Sign Up" << endl
                      << endl;
@@ -660,7 +662,7 @@ public:
                         validate = loginPatient(username, password);
                     }
                     clearScreen();
-                    int patient_option;
+                    int patient_option = 0;
                     ifstream f("patients.dat", ios::binary);
                     Patient p;
                     while (f.read((char *)&p, sizeof(p)))
@@ -674,6 +676,7 @@ public:
 
                     while (patient_option != 7)
                     {
+                        clearScreen();
                         cout << "\t\t\tWelcome, " << p.getName() << endl
                              << endl;
                         cout << "\t\t\t1. Edit Profile" << endl;
@@ -2079,7 +2082,7 @@ public:
             {
                 dag.addReview(review, rate);
                 int cur = f.tellg();
-                int size = sizeof(d);
+                int size = sizeof(dag);
                 f.seekg(cur - size, ios::beg);
                 f.write((char *)&dag, sizeof(dag));
                 f.close();
@@ -2118,6 +2121,7 @@ public:
                 }
             }
         }
+        cout << endl;
         tempfile.close();
         appoint.close();
         remove("appointments.dat");
