@@ -16,11 +16,11 @@ class Appointment {
     Appointment() {
         
     }
-    Appointment(Doctor doctor, Patient patient, Date d, int type) {
+    Appointment(Doctor doctor, Patient patient, Date d, int type, Date bkd) {
         doc = doctor;
         p = patient;
         date = d;
-        booking_date = d;
+        booking_date = bkd;
         appointment_type = type;
         string status = "Pending";
         strcpy(appointment_status, status.c_str());
@@ -47,6 +47,7 @@ class Appointment {
     void setDate(Date obj) {
         date = obj;
     }
+    
     int getAppointmentType() {
         return appointment_type;
     }

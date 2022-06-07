@@ -13,19 +13,21 @@ class Doctor : public User {
 
     char location[100];
     char hospital[100];
-    FeedBack * feedbacks;
     int no_feedbacks;
     double hourly_charge;
-   char specialization[100];
+    char specialization[100];
     int experience;
     char CNIC[100];
     char email[100];
     int rating;
     Payment * payments;
     int no_payments;
+    public:
     Date *available_times;
     int no_times;
-    public:
+    FeedBack * feedbacks;
+
+    
     Doctor(string n = "", string u = "", string p = "", string c = "", string em = "", string h = "", string l = "", string s = "", int e = 0, double h_c = 0.0) : User(n, u, p) {
         strcpy(this->CNIC, c.c_str());
         strcpy(this->hospital, h.c_str());
@@ -36,6 +38,9 @@ class Doctor : public User {
         strcpy(this->email, em.c_str());
         no_times = 0;
         available_times = new Date[10];
+        no_feedbacks = 0;
+        feedbacks = new FeedBack[50];
+
     }
     string getCNIC() {
         return CNIC;
@@ -50,7 +55,10 @@ class Doctor : public User {
     string getHospital() {
         return hospital;
     }
- 
+    void addReview(string r, double rat) {
+        FeedBack f(r, rat);
+        feedbacks[no_feedbacks++] = f;
+    }
     int getExperience() {
         return experience;
     }
@@ -84,7 +92,12 @@ class Doctor : public User {
         strcpy(specialization, s.c_str());
     }
 
-
+    int getNoOfFeedBacks() {
+        return no_feedbacks;
+    }
+    void setNoOfFeedbacks(int n) {
+        no_feedbacks = n;
+    }
     void mainMenu();
     Doctor operator=(Doctor obj) {
         setName(obj.getName());
@@ -111,8 +124,7 @@ class Doctor : public User {
             if (ds.getCNIC() == cnic)
             {
                 cout << "ok" << endl;
-                ds.available_times[no_times] = doc;
-                ds.no_times++;
+                ds.available_times[no_times++] = doc;
                 int cur = f.tellg();
                 int size = sizeof(d);
                 f.seekg(cur - size, ios::beg);
@@ -120,11 +132,23 @@ class Doctor : public User {
                 f.close();
             }
         }
-
+        f.close();
         return 1;
         
 
 
+    }
+
+    double getAverageRating() {
+        double avg = 0;
+        for (int i = 0; i < getNoOfFeedBacks(); i++) {
+            avg += feedbacks[i].getRating();
+        }
+        return avg / getNoOfFeedBacks();
+    }
+
+    int getNo_Times() {
+        return no_times;
     }
 
         bool editDoctorHospital(string c, string h)
