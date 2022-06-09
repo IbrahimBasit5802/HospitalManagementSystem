@@ -867,6 +867,9 @@ public:
                                     cout << "\t\t\tChoice: ";
                                     int sub_sub;
                                     cin >> sub_sub;
+                                    if(sub_sub == 3) {
+                                        break;
+                                    }
                                     while (sub_sub != 3)
                                     {
                                         if (sub_sub == 3)
