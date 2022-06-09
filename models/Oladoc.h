@@ -38,6 +38,7 @@ public:
             clearScreen();
             if (user_type == 1)
             {
+                draw();
                 cout << "\t\t\tWelcome Admin!" << endl
                      << endl;
                 cout << "\t\t\t1. Login" << endl
@@ -45,11 +46,13 @@ public:
                 cout << "\t\t\tChoice: ";
                 cin >> panel_choice;
                 clearScreen();
+                
                 if (panel_choice == 1)
                 {
                     string userName;
                     string pass;
                     validate = false;
+                    draw();
                     while (!validate)
                     {
                         cout << "\t\t\tUsername: ";
@@ -61,13 +64,14 @@ public:
                         // int lol;
                         // cin >> lol;
                     }
+                    cout << "\t\t\tLogin Successful" << endl;
+
                     clearScreen();
                     int admin_option = 0;
 
-                    cout << "\t\t\tLogin Successful" << endl;
-                    cout << endl;
                     while (admin_option != 9)
                     {
+                        draw();
 
                         cout << "\t\t\tWelcome, " << userName << "!" << endl;
                         cout << endl;
@@ -88,6 +92,7 @@ public:
                         if (admin_option == 3)
                         {
                             clearScreen();
+                            draw();
                             a.viewAllPatientData();
                             cout << endl;
                             cout << "\t\t\tPress enter to go back to the admin panel...";
@@ -102,6 +107,7 @@ public:
                         else if (admin_option == 8)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tAppointments" << endl
                                  << endl;
                             viewAllAppointments();
@@ -114,6 +120,7 @@ public:
                         else if (admin_option == 4)
                         {
                             clearScreen();
+                            draw();
                             cout << endl;
                             cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the location of." << endl
                                  << endl;
@@ -139,6 +146,7 @@ public:
                         else if (admin_option == 5)
                         {
                             clearScreen();
+                            draw();
                             cout << endl;
                             cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the hospital of." << endl
                                  << endl;
@@ -164,6 +172,7 @@ public:
                         else if (admin_option == 6)
                         {
                             clearScreen();
+                            draw();
                             cout << endl;
                             cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the hourly charge of." << endl
                                  << endl;
@@ -189,6 +198,7 @@ public:
                         else if (admin_option == 7)
                         {
                             clearScreen();
+                            draw();
                             cout << endl;
                             cout << "\t\t\tEnter the CNIC of the doctor you wish to edit the experience of." << endl
                                  << endl;
@@ -214,6 +224,7 @@ public:
                         else if (admin_option == 2)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tEnter the CNIC of the doctor you wish to remove: ";
                             string cnic;
                             cin >> cnic;
@@ -235,6 +246,7 @@ public:
                         else if (admin_option == 1)
                         {
                             clearScreen();
+                            draw();
                             a.viewAllDoctors();
                             cout << endl;
                             cout << "\t\t\tPress enter to go back to the admin panel...";
@@ -247,6 +259,7 @@ public:
             }
             else if (user_type == 2)
             {
+                draw();
                 cout << "\t\t\tWelcome Doctor!" << endl
                      << endl;
                 cout << "\t\t\t1. Login" << endl;
@@ -258,12 +271,14 @@ public:
                 cout << endl;
                 if (panel_choice == 2)
                 {
+                    draw();
 
                     registerDoctor();
                 }
                 else if (panel_choice == 1)
                 {
                     ifstream file("doctors.dat", ios::binary);
+                    draw();
                     if (file)
                     {
                         validate = false;
@@ -308,6 +323,7 @@ public:
                     f.close();
                     while (doctor_option != 6)
                     {
+                        draw();
                         cout << "\t\t\tWelcome, " << d.getName() << endl;
                         cout << endl;
                         cout << "\t\t\t1. Edit Available Times" << endl;
@@ -325,6 +341,7 @@ public:
                         }
                         else if(doctor_option == 5) {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tMy reviews and ratings" << endl << endl;
                             for (int i = 0; i < d.getNoOfFeedBacks(); i++) {
                                 cout << "\t\t\tFeedback " << i + 1 << ": " << endl << endl;
@@ -345,6 +362,7 @@ public:
                         else if (doctor_option == 3)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tMy Scheduled Appointments" << endl
                                  << endl;
                             viewScheduledAppointments(d);
@@ -357,6 +375,8 @@ public:
                         
                         else if (doctor_option == 4)
                         {
+                            clearScreen();
+                            draw();
                             cout << "\t\t\tAppointment Manager" << endl
                                  << endl;
                             cout << "\t\t\t1. Complete an Appointment" << endl;
@@ -375,6 +395,7 @@ public:
                                 else if (ch == 1)
                                 {
                                     clearScreen();
+                                    draw();
                                     completeAppointmentDoctor(d);
 
                                     clearScreen();
@@ -382,13 +403,13 @@ public:
                                          << endl;
                                     cout << "\t\t\tPress enter to go back";
                                     cin.get();
-                                    cin.get();
                                     clearScreen();
                                     break;
                                 }
 
                                 else if(ch == 2) {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tAppointment Cancellation" << endl
                                          << endl;
                                     Doctor temp = deleteAppointmentDoctor(d);
@@ -406,6 +427,7 @@ public:
                         else if (doctor_option == 2)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tEdit Profile" << endl;
                             cout << endl;
                             cout << "\t\t\t1. Edit Hospital" << endl;
@@ -429,6 +451,7 @@ public:
                                 else if (sub_option == 1)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter the name of your new hospital: ";
                                     string new_hos;
                                     cin >> new_hos;
@@ -445,6 +468,7 @@ public:
                                 else if (sub_option == 2)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new location: ";
                                     string new_loc;
                                     cin >> new_loc;
@@ -461,6 +485,7 @@ public:
                                 else if (sub_option == 3)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new hourly rate: ";
                                     double new_rate;
                                     cin >> new_rate;
@@ -477,6 +502,7 @@ public:
                                 else if (sub_option == 4)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new experience (in years): ";
                                     int new_exp;
                                     cin >> new_exp;
@@ -493,6 +519,7 @@ public:
                                 else if (sub_option == 5)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new username: ";
                                     string new_usr;
                                     cin >> new_usr;
@@ -509,6 +536,7 @@ public:
                                 else if (sub_option == 6)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new email: ";
                                     string new_em;
                                     cin >> new_em;
@@ -530,6 +558,7 @@ public:
                                 else if (sub_option == 7)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new password: ";
                                     string new_pass;
                                     cin >> new_pass;
@@ -555,6 +584,7 @@ public:
                             int sub_option;
 
                             clearScreen();
+                            draw();
                             cout << "\t\t\tEdit Available Times" << endl;
                             cout << endl;
                             cout << "\t\t\t1. Add Availability" << endl;
@@ -574,6 +604,7 @@ public:
                                 {
                                     int year, day, month, hour;
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tAdd Availability" << endl;
                                     cout << endl;
                                     cout << "\t\t\tYear: ";
@@ -605,6 +636,7 @@ public:
                         else if (doctor_option == 3)
                         {
                             clearScreen();
+                            draw();
                             d.viewAllAvailableTime();
                             cout << endl;
                             cout << "\t\t\tPress enter to go back to the doctors panel...";
@@ -617,6 +649,7 @@ public:
             }
             else if (user_type == 3)
             {
+                draw();
                 cout << "\t\t\tWelcome Patient!" << endl << endl;
                 cout << "\t\t\t1. Login" << endl;
                 cout << "\t\t\t2. Sign Up" << endl
@@ -627,6 +660,7 @@ public:
                 cout << endl;
                 if (panel_choice == 2)
                 {
+                    draw();
 
                     registerPatient();
                 }
@@ -641,6 +675,7 @@ public:
 
                     else
                     {
+                        draw();
                         validate = true;
                         cout << "\t\t\tThere are no patients registered in the system." << endl;
                         cout << "\t\t\tPress enter to go back.....";
@@ -654,6 +689,7 @@ public:
                     while (!validate)
 
                     {
+                        draw();
 
                         cout << "\t\t\tUsername: ";
                         cin >> username;
@@ -662,6 +698,7 @@ public:
                         validate = loginPatient(username, password);
                     }
                     clearScreen();
+                    draw();
                     int patient_option = 0;
                     ifstream f("patients.dat", ios::binary);
                     Patient p;
@@ -677,6 +714,7 @@ public:
                     while (patient_option != 7)
                     {
                         clearScreen();
+                        draw();
                         cout << "\t\t\tWelcome, " << p.getName() << endl
                              << endl;
                         cout << "\t\t\t1. Edit Profile" << endl;
@@ -697,6 +735,7 @@ public:
                         else if (patient_option == 6)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tBalance Inquiry" << endl
                                  << endl;
                             cout << "\t\t\tYour Balance is: " << p.account.getBalance() << endl
@@ -709,6 +748,7 @@ public:
                         else if (patient_option == 4)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tRecharge Account" << endl;
                             cout << endl;
                             cout << "\t\t\tAmount to add: ";
@@ -731,6 +771,7 @@ public:
                                 }
                             }
                             clearScreen();
+                            draw();
                             cout << "\t\t\tAccount successfully Recharged" << endl
                                  << endl;
                             cout << "\t\t\tPress enter to go back...";
@@ -741,6 +782,7 @@ public:
                         else if (patient_option == 5)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tHow would you like to look for your doctor?" << endl
                                  << endl;
                             cout << "\t\t\t1. By Speciality" << endl;
@@ -759,6 +801,7 @@ public:
                                 else if (sub_option == 1)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tSearching for Doctors" << endl
                                          << endl;
                                     cout << "\t\t\tSpeciality: ";
@@ -778,6 +821,7 @@ public:
                                 else if (sub_option == 2)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tSearching for Doctors" << endl
                                          << endl;
                                     cout << "\t\t\tHospital: ";
@@ -800,6 +844,7 @@ public:
                         else if (patient_option == 3)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tAppointments" << endl
                                  << endl;
                             cout << "\t\t\t1. Book an Appointment" << endl;
@@ -819,6 +864,7 @@ public:
                                 }
                                 else if(sub_option == 4) {
                                     clearScreen();
+                                    draw();
                                     completeAppointment(p);
 
                                     clearScreen();
@@ -827,6 +873,7 @@ public:
                                 else if (sub_option == 3)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tAppointment Cancellation" << endl
                                          << endl;
                                     Patient temp = deleteAppointment(p);
@@ -843,6 +890,7 @@ public:
                                 else if (sub_option == 2)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tMy Appointments: " << endl;
                                     cout << endl;
                                     viewPatientAppointments(p);
@@ -856,6 +904,7 @@ public:
                                 else if (sub_option == 1)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tBook Appointment" << endl
                                          << endl;
                                     cout << "\t\t\tHow would you like to look for your doctor?" << endl
@@ -879,6 +928,7 @@ public:
                                         else if (sub_sub == 1)
                                         {
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tSearching for Doctors" << endl
                                                  << endl;
                                             cout << "\t\t\tSpeciality: ";
@@ -894,6 +944,7 @@ public:
                                             int doc_choice;
                                             cin >> doc_choice;
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tAppointment Type" << endl
                                                  << endl;
                                             cout << "\t\t\t1. In person" << endl;
@@ -903,6 +954,7 @@ public:
                                             cout << "\t\t\tChoice: ";
                                             cin >> type;
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tDate of Booking" << endl
                                                  << endl;
                                             cout << "\t\t\tYear: ";
@@ -919,6 +971,7 @@ public:
                                             cin >> hour;
                                             Date date(year, month, day, hour);
                                             clearScreen();
+                                            draw();
                                             Date appointment_date(year, month, day, hour);
                                             bool created = createAppointment(p, docs[doc_choice - 1], type, date, appointment_date);
 
@@ -946,6 +999,7 @@ public:
                                                 }
                                             }
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tPayment Method" << endl
                                                  << endl;
                                             cout << "\t\t\t1. JazzCash" << endl;
@@ -957,6 +1011,7 @@ public:
                                             cout << "\t\t\tChoice: ";
                                             cin >> payment_option;
                                             clearScreen();
+                                            draw();
                                             if (created)
                                             {
                                                 cout << endl;
@@ -971,6 +1026,7 @@ public:
                                         else if (sub_sub == 2)
                                         {
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tSearching for Doctors" << endl
                                                  << endl;
                                             cout << "\t\t\tHospital: ";
@@ -986,6 +1042,7 @@ public:
                                             int doc_choice;
                                             cin >> doc_choice;
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tAppointment Type" << endl
                                                  << endl;
                                             cout << "\t\t\t1. In person" << endl;
@@ -995,6 +1052,7 @@ public:
                                             cout << "\t\t\tChoice: ";
                                             cin >> type;
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tDate of Booking" << endl
                                                  << endl;
                                             cout << "\t\t\tYear: ";
@@ -1011,6 +1069,7 @@ public:
                                             cin >> hour;
                                             Date date(year, month, day, hour);
                                             clearScreen();
+                                            draw();
                                             Date appointment_date = displayDoctorTimings(docs[doc_choice  - 1]);
                                             bool created = createAppointment(p, docs[doc_choice - 1], type, date, appointment_date);
 
@@ -1038,6 +1097,7 @@ public:
                                                 }
                                             }
                                             clearScreen();
+                                            draw();
                                             cout << "\t\t\tPayment Method" << endl
                                                  << endl;
                                             cout << "\t\t\t1. JazzCash" << endl;
@@ -1049,6 +1109,7 @@ public:
                                             cout << "\t\t\tChoice: ";
                                             cin >> payment_option;
                                             clearScreen();
+                                            draw();
                                             if (created)
                                             {
                                                 cout << endl;
@@ -1067,6 +1128,7 @@ public:
                         else if (patient_option == 1)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tEdit Profile" << endl
                                  << endl;
                             cout << "\t\t\t1. Change Name" << endl;
@@ -1087,6 +1149,7 @@ public:
                                 else if (sub_option == 1)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new name: ";
                                     string new_name;
                                     cin >> new_name;
@@ -1103,6 +1166,7 @@ public:
                                 else if (sub_option == 2)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new Username: ";
                                     string new_name;
                                     cin >> new_name;
@@ -1119,6 +1183,7 @@ public:
                                 else if (sub_option == 3)
                                 {
                                     clearScreen();
+                                    draw();
                                     cout << "\t\t\tEnter your new Email: ";
                                     string new_email;
                                     cin >> new_email;
@@ -1142,6 +1207,7 @@ public:
                         else if (patient_option == 2)
                         {
                             clearScreen();
+                            draw();
                             cout << "\t\t\tEnter your new password: ";
                             string new_pass;
                             cin >> new_pass;
@@ -1697,6 +1763,12 @@ public:
         }
         appointments.close();
     }
+    void draw() {
+        cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl << endl;
+        cout << "\t\t\t\t\t\t\t\t\t\t\t\tWelcome to Oladoc!" << endl << endl;
+        cout << "\t\t\t\t\t\t\t\t\t\t\t\tYour health buddy" << endl << endl;
+        cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl << endl;
+    }
     // function to cancelAppointment from doctor's side
     Doctor deleteAppointmentDoctor(Doctor d) {
         cout << "\t\t\tYour Appointments: " << endl
@@ -2005,12 +2077,10 @@ public:
                 }
             }
         }
-        cout << endl << "\t\t\tAppointment Completed" << endl;
         tempfile.close();
         appoint.close();
         remove("appointments.dat");
         rename("temp.dat", "appointments.dat");
-        cout << "\t\t\tPress enter to go back...";
         cin.get();
         cin.get();
 
