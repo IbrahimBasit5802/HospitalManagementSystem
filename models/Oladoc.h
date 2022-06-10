@@ -2249,7 +2249,9 @@ public:
         ifstream appointments("appointments.dat", ios::binary);
         Appointment app;
         int i = 1;
+        while(appointments.read((char*)&app, sizeof(app))) {
 
+        
         cout << "\t\t\tAppointment " << i << endl
              << endl;
         cout << "\t\t\tPatient name: " << app.getPatient().getName() << endl;
@@ -2272,6 +2274,7 @@ public:
         cout << "\t\t\tAppointment Status: " << app.getAppointmentStatus() << endl;
         cout << endl;
         i++;
+        }
 
         appointments.close();
     }
